@@ -1,5 +1,5 @@
 //
-//  FilterCell.swift
+//  PickerCell.swift
 //  Yelp
 //
 //  Created by Pat Boonyarittipong on 4/20/15.
@@ -8,11 +8,10 @@
 
 import UIKit
 
-class FilterCell: UITableViewCell {
-    
-    @IBOutlet weak var cellSwitch: UIView!
-    @IBOutlet weak var cellLabel: UILabel!
+class PickerCell: UITableViewCell {
 
+    @IBOutlet weak var pickerView: UIPickerView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

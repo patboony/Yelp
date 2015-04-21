@@ -19,6 +19,7 @@
 		4334D8051AE5C617008D572E /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4334D8041AE5C617008D572E /* FiltersViewController.swift */; };
 		435A0DA51AE5D16300A0F266 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435A0DA41AE5D16300A0F266 /* FilterCell.swift */; };
 		435A0DA71AE5EAE300A0F266 /* RestaurantDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435A0DA61AE5EAE300A0F266 /* RestaurantDetailViewController.swift */; };
+		435A0DA91AE6095600A0F266 /* PickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435A0DA81AE6095600A0F266 /* PickerCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		4334D8041AE5C617008D572E /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		435A0DA41AE5D16300A0F266 /* FilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		435A0DA61AE5EAE300A0F266 /* RestaurantDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantDetailViewController.swift; sourceTree = "<group>"; };
+		435A0DA81AE6095600A0F266 /* PickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerCell.swift; sourceTree = "<group>"; };
 		52D67A4BE83E496C3E0F5C73 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C56EF0CE844A4EE5819C72AF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -105,6 +107,7 @@
 				222D8A7E19CCFAEF00D2DB53 /* Yelp-Bridging-Header.h */,
 				4334D8021AE5C033008D572E /* RestaurantCell.swift */,
 				435A0DA41AE5D16300A0F266 /* FilterCell.swift */,
+				435A0DA81AE6095600A0F266 /* PickerCell.swift */,
 			);
 			path = Yelp;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4334D8031AE5C033008D572E /* RestaurantCell.swift in Sources */,
+				435A0DA91AE6095600A0F266 /* PickerCell.swift in Sources */,
 				435A0DA51AE5D16300A0F266 /* FilterCell.swift in Sources */,
 				222D8A5D19CCF9F900D2DB53 /* ViewController.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,

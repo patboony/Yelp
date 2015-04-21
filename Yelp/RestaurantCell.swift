@@ -10,6 +10,16 @@ import UIKit
 
 class RestaurantCell: UITableViewCell {
 
+    @IBOutlet weak var restaurantImageView: UIImageView!
+    @IBOutlet weak var restaurantNameLabel: UILabel!
+    @IBOutlet weak var restaurantReviewCountLabel: UILabel!
+    @IBOutlet weak var restaurantAddressLabel: UILabel!
+    @IBOutlet weak var restaurantCategoryLabel: UILabel!
+    @IBOutlet weak var restaurantDistanceLabel: UILabel!
+    @IBOutlet weak var restaurantRatingImageView: UIImageView!
+    
+    var restaurantInfo: NSDictionary = [:]
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

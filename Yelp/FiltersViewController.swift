@@ -8,15 +8,14 @@
 
 import UIKit
 
-class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FiltersViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
-        tableView.dataSource = self
+        tableView.estimatedRowHeight = 50
         tableView.reloadData()
         // Do any additional setup after loading the view.
     }
@@ -28,46 +27,68 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 100)   )
+        headerView.backgroundColor = UIColor(white: 0.8, alpha: 0.5)
+        var settingLabel = UILabel()
+        switch(section){
+        case 0:
+            settingLabel.text = "Price"
+            break;
+        case 1:
+            settingLabel.text = "Distance"
+            break;
+        case 2:
+            settingLabel.text = "Sort"
+            break;
+        default:
+            break;
+        }
+        
+        //settingLabel.textColor = UIColor(white: 0.0, alpha: 0.5)
+        headerView.insertSubview(settingLabel, atIndex:0)
+        
+        return headerView
+    }
     
+    /*
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        println("section num = 3")
         return 3
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch(section){
+        println("section to show = " + String(section))
+        switch section {
         case 0:
             return 1
-            break
         case 1:
             return 2
-            break
         case 2:
             return 2
-            break
         default:
-            break
+            return 0
         }
-        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        //println("section" + String(indexPath.section))
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
+            var cell = tableView.dequeueReusableCellWithIdentifier("SegmentCell", forIndexPath: indexPath) as! SegmentCell
+            return cell
+        case 1:
             var cell = tableView.dequeueReusableCellWithIdentifier("FilterCell", forIndexPath: indexPath) as! FilterCell
             return cell
-        }
-        if indexPath.section == 1 {
-            var cell = tableView.dequeueReusableCellWithIdentifier("PickerCell", forIndexPath: indexPath) as! PickerCell
+        default:
+            var cell = tableView.dequeueReusableCellWithIdentifier("FilterCell", forIndexPath: indexPath) as! FilterCell
             return cell
-        }
-        return tableView.dequeueReusableCellWithIdentifier("FilterCell", forIndexPath: indexPath) as! FilterCell
+        }   
     }
-    
+*/
 
     @IBAction func searchButtonPressed(sender: AnyObject) {
     // Use protocol to send settings back to the main view
-        
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func cancelButtonPressed(sender: AnyObject) {

@@ -26,9 +26,48 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         self.requestSerializer.saveAccessToken(token)
     }
     
-    func searchWithTerm(term: String, success: (AFHTTPRequestOperation!, AnyObject!) -> Void, failure: (AFHTTPRequestOperation!, NSError!) -> Void) -> AFHTTPRequestOperation! {
+    func searchWithTerm(term: String, filter: [String:Int], success: (AFHTTPRequestOperation!, AnyObject!) -> Void, failure: (AFHTTPRequestOperation!, NSError!) -> Void) -> AFHTTPRequestOperation! {
         // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
-        var parameters = ["term": term, "location": "San Francisco"]
+        var parameters = ["term": term, "location": "94109"]
+        
+        for (keyName, value) in filter {
+            switch keyName {
+            case "deal":
+                if value == 1 {
+                    parameters["deals_filter"] = "true"
+                } else {
+                    parameters["deals_filter"] = "false"
+                }
+            case "distance":
+                if value == -1 {
+                    parameters["radius_filter"] = nil
+                }
+                if value == 0 {
+                    parameters["radius_filter"] = "482"
+                }
+                if value == 1 {
+                    parameters["radius_filter"] = "1609"
+                }
+                if value == 5 {
+                    parameters["radius_filter"] = "8046"
+                }
+                if value == 20 {
+                    parameters["radius_filter"] = "32186"
+                }
+            case "sort":
+                parameters["sort"] = String(value)
+                
+            default:
+                if keyName != "" {
+                    parameters["category_filter"] = keyName
+                } else {
+                    parameters["category_filter"] = nil
+                }
+                
+            }
+            
+        }
+        
         return self.GET("search", parameters: parameters, success: success, failure: failure)
     }
     

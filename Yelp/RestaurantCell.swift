@@ -23,12 +23,20 @@ class RestaurantCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        restaurantAddressLabel.preferredMaxLayoutWidth = restaurantAddressLabel.frame.width
+        restaurantNameLabel.preferredMaxLayoutWidth = restaurantNameLabel.frame.width
+        restaurantReviewCountLabel.preferredMaxLayoutWidth = restaurantReviewCountLabel.frame.width
     }
 
 }

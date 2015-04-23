@@ -8,13 +8,13 @@
 
 import UIKit
 
-class FiltersTableViewController: UITableViewController {
+protocol SaveFilterDelegate {
+    func saveFilterValue(filtersTableViewController: FiltersTableViewController, filterValue value:[String:Int])
+}
 
-    @IBOutlet weak var priceSegment: UIView!
-    @IBOutlet weak var openNowSwitch: UIView!
-    @IBOutlet weak var hotNewSwitch: UISwitch!
+class FiltersTableViewController: UITableViewController {
+    
     @IBOutlet weak var dealSwitch: UISwitch!
-    @IBOutlet weak var deliverySwitch: UISwitch!
     @IBOutlet weak var autoCell: UITableViewCell!
     @IBOutlet weak var pointThreeMilesCell: UITableViewCell!
     @IBOutlet weak var oneMileCell: UITableViewCell!
@@ -23,7 +23,15 @@ class FiltersTableViewController: UITableViewController {
     @IBOutlet weak var bestMatchCell: UITableViewCell!
     @IBOutlet weak var distanceCell: UITableViewCell!
     @IBOutlet weak var ratingCell: UITableViewCell!
-    @IBOutlet weak var mostReviewedCell: UITableViewCell!
+    @IBOutlet weak var restaurantCatCell: UITableViewCell!
+    @IBOutlet weak var artsCatCell: UITableViewCell!
+    @IBOutlet weak var fitnessCatCell: UITableViewCell!
+    @IBOutlet weak var nightlifeCatCell: UITableViewCell!
+    
+    
+    var delegate:SaveFilterDelegate?
+    var currentFilterOptional: [String:Int]?
+    var filterDictionary = [String:Int]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +41,7 @@ class FiltersTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,6 +49,60 @@ class FiltersTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     @IBAction func searchButtonPressed(sender: AnyObject) {
+
+        // Distance Filter
+        if autoCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["distance"] = -1
+        }
+        if pointThreeMilesCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["distance"] = 0
+        }
+        if oneMileCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["distance"] = 1
+        }
+        if fiveMilesCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["distance"] = 5
+        }
+        if twentyMilesCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["distance"] = 20
+        }
+        
+        // Sort by
+        if bestMatchCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["sort"] = 0
+        }
+        
+        if distanceCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["sort"] = 1
+        }
+        
+        if ratingCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["sort"] = 2
+        }
+        
+        // Deal Filter
+        filterDictionary["deal"] = 0
+        if dealSwitch.on {
+            filterDictionary["deal"] = 1
+        }
+        
+        if restaurantCatCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["restaurants"] = 1
+        }
+        
+        if artsCatCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["arts"] = 1
+        }
+        
+        if fitnessCatCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["fitness"] = 1
+        }
+        
+        if nightlifeCatCell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+            filterDictionary["nightlife"] = 1
+        }
+        
+        delegate?.saveFilterValue(self, filterValue: filterDictionary)
         dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -62,9 +125,9 @@ class FiltersTableViewController: UITableViewController {
         case 0:
             return 1
         case 1:
-            return 4
-        case 2:
             return 5
+        case 2:
+            return 3
         case 3:
             return 4
         default:
@@ -73,7 +136,29 @@ class FiltersTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        switch indexPath.section {
+        case 1:
+            autoCell.accessoryType = UITableViewCellAccessoryType.None
+            pointThreeMilesCell.accessoryType =  UITableViewCellAccessoryType.None
+            oneMileCell.accessoryType =  UITableViewCellAccessoryType.None
+            fiveMilesCell.accessoryType =  UITableViewCellAccessoryType.None
+            twentyMilesCell.accessoryType =  UITableViewCellAccessoryType.None
+            tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = UITableViewCellAccessoryType.Checkmark
+        case 2:
+            bestMatchCell.accessoryType = UITableViewCellAccessoryType.None
+            distanceCell.accessoryType = UITableViewCellAccessoryType.None
+            ratingCell.accessoryType = UITableViewCellAccessoryType.None
+            tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = UITableViewCellAccessoryType.Checkmark
+        case 3:
+            restaurantCatCell.accessoryType = UITableViewCellAccessoryType.None
+            artsCatCell.accessoryType = UITableViewCellAccessoryType.None
+            fitnessCatCell.accessoryType = UITableViewCellAccessoryType.None
+            nightlifeCatCell.accessoryType = UITableViewCellAccessoryType.None
+            tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = UITableViewCellAccessoryType.Checkmark
+        default:
+            break
+        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
     /*

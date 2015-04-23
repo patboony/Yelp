@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SaveFilterDelegate {
     var client: YelpClient!
     
     @IBOutlet weak var restaurantSearchBar: UISearchBar!
@@ -23,6 +23,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var restaurantList = [NSDictionary]()
     var searchKeyword = "Thai"
     
+    var filtersDict = [String:Int]()
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -34,7 +36,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         searchBar.delegate = self
         navigationItem.titleView = restaurantSearchBar
         
-        tableView.estimatedRowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 90
         
         searchForRestaurants()
     }
@@ -44,7 +47,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Do any additional setup after loading the view, typically from a nib.
         client = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
         
-        client.searchWithTerm(searchKeyword, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+        client.searchWithTerm(searchKeyword, filter: filtersDict, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             //println(response["businesses"])
             self.restaurantList = response["businesses"] as! [NSDictionary]
 
@@ -59,11 +62,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = tableView.dequeueReusableCellWithIdentifier("RestaurantCell", forIndexPath: indexPath) as! RestaurantCell
         let restaurantInfo = restaurantList[indexPath.row]
         cell.restaurantNameLabel.text = restaurantInfo["name"] as! String
-        cell.restaurantAddressLabel.sizeToFit()
+        //cell.restaurantNameLabel.sizeToFit()
+
         println(restaurantInfo)
         
         let restaurantLocationDict = restaurantInfo["location"] as! NSDictionary
         let restaurantLocationDisplay = restaurantLocationDict["display_address"] as! NSArray
+        let restaurantCategoriesArray = restaurantInfo["categories"] as! NSArray
         var addressToDisplay = "n/a"
         var neighborhoodToDisplay = "n/a"
         
@@ -76,8 +81,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         cell.restaurantAddressLabel.text = addressToDisplay + ", " + neighborhoodToDisplay
+        //cell.restaurantAddressLabel.sizeToFit()
 
-        cell.restaurantAddressLabel.sizeToFit()
+        var categoryLabel = ""
+        for (catArray) in restaurantCategoriesArray {
+            categoryLabel += String(stringInterpolationSegment: catArray[0]) + ", "
+        }
+
+        // Remove the trailing comma
+        let stringLength = count(categoryLabel)
+        let substringIndex = stringLength - 2
+        cell.restaurantCategoryLabel.text = categoryLabel.substringToIndex(advance(categoryLabel.startIndex, substringIndex))
+        //cell.restaurantCategoryLabel.sizeToFit()
         
         var reviewCount = String(restaurantInfo["review_count"] as! Int)
         reviewCount += " Reviews"
@@ -90,10 +105,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if let ratingImageURL = restaurantInfo["rating_img_url_large"] as? String {
             cell.restaurantRatingImageView.setImageWithURL(NSURL(string: ratingImageURL))
         }
-        
-        var categoryToDisplay = ""
-        
-        
         
         return cell
     }
@@ -114,6 +125,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.endEditing(true)
     }
+    
+    func saveFilterValue(filtersTableViewController: FiltersTableViewController, filterValue value:[String:Int]){
+        filtersDict = value
+        searchForRestaurants()
+    }
 
     
     override func didReceiveMemoryWarning() {
@@ -126,9 +142,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "filterModal" { //<< Set this in the StoryBoard!!!!!!
+            let filterTableNC = segue.destinationViewController as! UINavigationController
+            let filterTableVC = filterTableNC.visibleViewController as! FiltersTableViewController
+            filterTableVC.delegate = self
+            filterTableVC.currentFilterOptional = filtersDict
+            println("set delegate!")
+        }
+        //var filterTableVC = segue.destinationViewController as! FiltersTableViewController
+        //var indexPath = tableView.indexPathForCell(sender as! RestaurantCell) as NSIndexPath!
+        //filterTableVC.delegate = self
+
     // Get the new view controller using segue.destinationViewController.
     // Pass the selected object to the new view controller.
     }
+    
+
     
     
     

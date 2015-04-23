@@ -154,9 +154,9 @@
 			isa = PBXGroup;
 			children = (
 				222D8A5C19CCF9F900D2DB53 /* ViewController.swift */,
-				4334D8041AE5C617008D572E /* FiltersViewController.swift */,
-				435A0DA61AE5EAE300A0F266 /* RestaurantDetailViewController.swift */,
 				435A0DAC1AE62F3000A0F266 /* FiltersTableViewController.swift */,
+				435A0DA61AE5EAE300A0F266 /* RestaurantDetailViewController.swift */,
+				4334D8041AE5C617008D572E /* FiltersViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";

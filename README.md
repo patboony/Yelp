@@ -27,6 +27,6 @@ Time spent: `12`
 - [ ] Implement the restaurant detail page.
 
 ### Walkthrough
-- Note that the current location as Nob Hill. When sorted by distance, top listings are all near Nob Hill
+- Note: Current location is set to Nob Hill. When sorted by distance, top listings are all from that area.
 
 ![Video Walkthrough](yelp.gif)

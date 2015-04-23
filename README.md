@@ -20,11 +20,13 @@ Time spent: `12`
 
 #### Optional
 
+- [x] Filter remembers previous filter criteria
 - [ ] Infinite scroll for restaurant results
 - [ ] Implement map view of restaurant results
 - [ ] Categories should show a subset of the full list with a "See All" row to expand. Category list is here: http://www.yelp.com/developers/documentation/category_list (Links to an external site.)
 - [ ] Implement the restaurant detail page.
 
 ### Walkthrough
+- Note that the current location as Nob Hill. When sorted by distance, top listings are all near Nob Hill
 
 ![Video Walkthrough](yelp.gif)

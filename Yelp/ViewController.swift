@@ -44,6 +44,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func searchForRestaurants(){
         
+        if searchBar.text != "" {
+            searchKeyword = searchBar.text
+        } else {
+            searchKeyword = "Thai"
+        }
+        
         // Do any additional setup after loading the view, typically from a nib.
         client = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
         
@@ -68,7 +74,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let restaurantLocationDict = restaurantInfo["location"] as! NSDictionary
         let restaurantLocationDisplay = restaurantLocationDict["display_address"] as! NSArray
-        let restaurantCategoriesArray = restaurantInfo["categories"] as! NSArray
+
         var addressToDisplay = "n/a"
         var neighborhoodToDisplay = "n/a"
         
@@ -84,13 +90,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         //cell.restaurantAddressLabel.sizeToFit()
 
         var categoryLabel = ""
-        for (catArray) in restaurantCategoriesArray {
-            categoryLabel += String(stringInterpolationSegment: catArray[0]) + ", "
+        
+        if let restaurantCategoriesArray = restaurantInfo["categories"] as? NSArray {
+            for (catArray) in restaurantCategoriesArray {
+                categoryLabel += String(stringInterpolationSegment: catArray[0]) + ", "
+            }
         }
+        
 
         // Remove the trailing comma
         let stringLength = count(categoryLabel)
-        let substringIndex = stringLength - 2
+        var substringIndex = stringLength - 2
+        if substringIndex < 0 {
+            substringIndex = 0
+        }
         cell.restaurantCategoryLabel.text = categoryLabel.substringToIndex(advance(categoryLabel.startIndex, substringIndex))
         //cell.restaurantCategoryLabel.sizeToFit()
         
@@ -114,10 +127,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        /*
         searchKeyword = searchText
         if searchKeyword == "" {
         searchKeyword = "Thai"
         }
+        */
         NSLog(searchKeyword)
         searchForRestaurants()
     }

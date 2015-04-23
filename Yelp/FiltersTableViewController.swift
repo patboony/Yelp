@@ -41,7 +41,72 @@ class FiltersTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        restoreFilterSettings()
 
+    }
+    
+    func restoreFilterSettings(){
+        if let currentFilter = currentFilterOptional {
+            if let distanceFilter = currentFilter["distance"] {
+                autoCell.accessoryType = UITableViewCellAccessoryType.None
+                switch distanceFilter {
+                case 0:
+                    pointThreeMilesCell.accessoryType =  UITableViewCellAccessoryType.Checkmark
+                case 1:
+                    oneMileCell.accessoryType =  UITableViewCellAccessoryType.Checkmark
+                case 5:
+                    fiveMilesCell.accessoryType =  UITableViewCellAccessoryType.Checkmark
+                case 20:
+                    twentyMilesCell.accessoryType =  UITableViewCellAccessoryType.Checkmark
+                default:
+                    autoCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                }
+            }
+            
+            if let sortFilter = currentFilter["sort"] {
+                bestMatchCell.accessoryType = UITableViewCellAccessoryType.None
+                switch sortFilter {
+                case 1:
+                    distanceCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                case 2:
+                    ratingCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                default:
+                    bestMatchCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                }
+            }
+            
+            if let dealFilter = currentFilter["deal"] {
+                switch dealFilter {
+                case 1:
+                    dealSwitch.on = true
+                default:
+                    dealSwitch.on = false
+                }
+            }
+            
+            // Default Cateogry Settings
+            restaurantCatCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            artsCatCell.accessoryType = UITableViewCellAccessoryType.None
+            fitnessCatCell.accessoryType = UITableViewCellAccessoryType.None
+            nightlifeCatCell.accessoryType = UITableViewCellAccessoryType.None
+            
+            if let artsFilter = currentFilter["arts"] {
+                restaurantCatCell.accessoryType = UITableViewCellAccessoryType.None
+                artsCatCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            }
+            
+            if let fitnessFilter = currentFilter["fitness"] {
+                restaurantCatCell.accessoryType = UITableViewCellAccessoryType.None
+                fitnessCatCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                
+            }
+            
+            if let nightlifeFilter = currentFilter["nightlife"] {
+                restaurantCatCell.accessoryType = UITableViewCellAccessoryType.None
+                nightlifeCatCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
